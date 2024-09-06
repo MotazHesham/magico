@@ -1,9 +1,7 @@
 @extends('layouts.frontend')
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-12">
-
+    <div class="row">
+        <div class="col-md-4">
             <div class="card">
                 <div class="card-header">
                     {{ trans('global.show') }} {{ trans('cruds.order.title') }}
@@ -28,10 +26,10 @@
                                 </tr>
                                 <tr>
                                     <th>
-                                        {{ trans('cruds.order.fields.full_massage') }}
+                                        {{ trans('cruds.order.fields.full_message') }}
                                     </th>
                                     <td>
-                                        {{ $order->full_massage }}
+                                        {{ $order->messageGeneration->full_message ?? '' }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -39,7 +37,7 @@
                                         {{ trans('cruds.order.fields.tokens') }}
                                     </th>
                                     <td>
-                                        {{ $order->tokens }}
+                                        {{ $order->messageGeneration->tokens ?? '' }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -81,15 +79,7 @@
                                     <td>
                                         {{ $order->total_cost }}
                                     </td>
-                                </tr>
-                                <tr>
-                                    <th>
-                                        {{ trans('cruds.order.fields.shipping_cost') }}
-                                    </th>
-                                    <td>
-                                        {{ $order->shipping_cost }}
-                                    </td>
-                                </tr>
+                                </tr> 
                                 <tr>
                                     <th>
                                         {{ trans('cruds.order.fields.operating_status') }}
@@ -98,20 +88,22 @@
                                         {{ App\Models\Order::OPERATING_STATUS_SELECT[$order->operating_status] ?? '' }}
                                     </td>
                                 </tr>
-                                <tr>
-                                    <th>
-                                        {{ trans('cruds.order.fields.cancel_reason') }}
-                                    </th>
-                                    <td>
-                                        {{ $order->cancel_reason }}
-                                    </td>
-                                </tr>
+                                @if($order->cancel_reason)
+                                    <tr>
+                                        <th>
+                                            {{ trans('cruds.order.fields.cancel_reason') }}
+                                        </th>
+                                        <td>
+                                            {{ $order->cancel_reason }}
+                                        </td>
+                                    </tr>
+                                @endif
                                 <tr>
                                     <th>
                                         {{ trans('cruds.order.fields.shift') }}
                                     </th>
                                     <td>
-                                        {{ $order->shift->operating_status ?? '' }}
+                                        {{ $order->shift->id ?? '' }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -148,8 +140,27 @@
                     </div>
                 </div>
             </div>
-
+        </div>
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    {{ trans('global.relatedData') }}
+                </div>
+                <ul class="nav nav-tabs" role="tablist" id="relationship-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#order_order_details" role="tab" data-toggle="tab">
+                            {{ trans('cruds.orderDetail.title') }}
+                        </a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" role="tabpanel" id="order_order_details">
+                        @includeIf('frontend.orders.relationships.orderOrderDetails', [
+                            'orderDetails' => $order->orderOrderDetails,
+                        ])
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-</div>
 @endsection

@@ -17,7 +17,7 @@ class UpdateOrderRequest extends FormRequest
     public function rules()
     {
         return [
-            'full_massage' => [
+            'full_message' => [
                 'required',
             ],
             'tokens' => [

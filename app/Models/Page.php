@@ -27,8 +27,7 @@ class Page extends Model implements HasMedia
         'deleted_at',
     ];
 
-    protected $fillable = [
-        'client_id',
+    protected $fillable = [ 
         'page_name',
         'page_link',
         'created_at',
@@ -50,13 +49,7 @@ class Page extends Model implements HasMedia
     public function pageProducts()
     {
         return $this->hasMany(Product::class, 'page_id', 'id');
-    }
-
-    public function client()
-    {
-        return $this->belongsTo(Client::class, 'client_id');
-    }
-
+    } 
     public function getLogoAttribute()
     {
         $file = $this->getMedia('logo')->last();
@@ -67,5 +60,5 @@ class Page extends Model implements HasMedia
         }
 
         return $file;
-    }
+    } 
 }

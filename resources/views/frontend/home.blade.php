@@ -1,11 +1,12 @@
 @extends('layouts.frontend')
-
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+<div class="content">
+    <div class="row">
+        <div class="col-lg-12">
             <div class="card">
-                <div class="card-header">{{ __('Dashboard') }}</div>
+                <div class="card-header">
+                    Dashboard
+                </div>
 
                 <div class="card-body">
                     @if(session('status'))
@@ -14,10 +15,51 @@
                         </div>
                     @endif
 
-                    {{ __('You are logged in!') }}
+                    <div class="row">
+                        <div class="{{ $settings1['column_class'] }}">
+                            <div class="card text-white bg-info">
+                                <div class="card-body pb-0">
+                                    <div class="text-value">{{ number_format($settings1['total_number']) }}</div>
+                                    <div>{{ $settings1['chart_title'] }}</div>
+                                    <br />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="{{ $settings2['column_class'] }}">
+                            <div class="card text-white bg-success">
+                                <div class="card-body pb-0">
+                                    <div class="text-value">{{ number_format($settings2['total_number']) }}</div>
+                                    <div>{{ $settings2['chart_title'] }}</div>
+                                    <br />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card text-white bg-warning">
+                                <div class="card-body pb-0">
+                                    <div class="text-value">{{ number_format(\App\Models\MessageGeneration::sum('tokens')) }}</div>
+                                    <div>Used Tokens</div>
+                                    <br />
+                                </div>
+                            </div>
+                        </div> 
+                        <div class="col-md-3">
+                            <div class="card text-white bg-danger">
+                                <div class="card-body pb-0">
+                                    <div class="text-value">{{ number_format(tenant('tokens')) }}</div>
+                                    <div>Remaining Tokens</div>
+                                    <br />
+                                </div>
+                            </div>
+                        </div> 
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+@endsection
+@section('scripts')
+@parent
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 @endsection

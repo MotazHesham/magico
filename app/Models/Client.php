@@ -64,4 +64,8 @@ class Client extends Model implements HasMedia
 
         return $file;
     }
+
+    public function tenants(){
+        return $this->belongsToMany(Tenant::class);
+    }
 }

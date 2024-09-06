@@ -1,75 +1,57 @@
 @extends('layouts.frontend')
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-12">
 
-            <div class="card">
-                <div class="card-header">
-                    {{ trans('global.edit') }} {{ trans('cruds.page.title_singular') }}
-                </div>
+<div class="card">
+    <div class="card-header">
+        {{ trans('global.edit') }} {{ trans('cruds.page.title_singular') }}
+    </div>
 
-                <div class="card-body">
-                    <form method="POST" action="{{ route("frontend.pages.update", [$page->id]) }}" enctype="multipart/form-data">
-                        @method('PUT')
-                        @csrf
-                        <div class="form-group">
-                            <label class="required" for="client_id">{{ trans('cruds.page.fields.client') }}</label>
-                            <select class="form-control select2" name="client_id" id="client_id" required>
-                                @foreach($clients as $id => $entry)
-                                    <option value="{{ $id }}" {{ (old('client_id') ? old('client_id') : $page->client->id ?? '') == $id ? 'selected' : '' }}>{{ $entry }}</option>
-                                @endforeach
-                            </select>
-                            @if($errors->has('client'))
-                                <div class="invalid-feedback">
-                                    {{ $errors->first('client') }}
-                                </div>
-                            @endif
-                            <span class="help-block">{{ trans('cruds.page.fields.client_helper') }}</span>
-                        </div>
-                        <div class="form-group">
-                            <label class="required" for="page_name">{{ trans('cruds.page.fields.page_name') }}</label>
-                            <input class="form-control" type="text" name="page_name" id="page_name" value="{{ old('page_name', $page->page_name) }}" required>
-                            @if($errors->has('page_name'))
-                                <div class="invalid-feedback">
-                                    {{ $errors->first('page_name') }}
-                                </div>
-                            @endif
-                            <span class="help-block">{{ trans('cruds.page.fields.page_name_helper') }}</span>
-                        </div>
-                        <div class="form-group">
-                            <label class="required" for="page_link">{{ trans('cruds.page.fields.page_link') }}</label>
-                            <input class="form-control" type="text" name="page_link" id="page_link" value="{{ old('page_link', $page->page_link) }}" required>
-                            @if($errors->has('page_link'))
-                                <div class="invalid-feedback">
-                                    {{ $errors->first('page_link') }}
-                                </div>
-                            @endif
-                            <span class="help-block">{{ trans('cruds.page.fields.page_link_helper') }}</span>
-                        </div>
-                        <div class="form-group">
-                            <label for="logo">{{ trans('cruds.page.fields.logo') }}</label>
-                            <div class="needsclick dropzone" id="logo-dropzone">
-                            </div>
-                            @if($errors->has('logo'))
-                                <div class="invalid-feedback">
-                                    {{ $errors->first('logo') }}
-                                </div>
-                            @endif
-                            <span class="help-block">{{ trans('cruds.page.fields.logo_helper') }}</span>
-                        </div>
-                        <div class="form-group">
-                            <button class="btn btn-danger" type="submit">
-                                {{ trans('global.save') }}
-                            </button>
-                        </div>
-                    </form>
-                </div>
+    <div class="card-body">
+        <form method="POST" action="{{ route("frontend.pages.update", [$page->id]) }}" enctype="multipart/form-data">
+            @method('PUT')
+            @csrf 
+            <div class="form-group">
+                <label class="required" for="page_name">{{ trans('cruds.page.fields.page_name') }}</label>
+                <input class="form-control {{ $errors->has('page_name') ? 'is-invalid' : '' }}" type="text" name="page_name" id="page_name" value="{{ old('page_name', $page->page_name) }}" required>
+                @if($errors->has('page_name'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('page_name') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.page.fields.page_name_helper') }}</span>
             </div>
-
-        </div>
+            <div class="form-group">
+                <label class="required" for="page_link">{{ trans('cruds.page.fields.page_link') }}</label>
+                <input class="form-control {{ $errors->has('page_link') ? 'is-invalid' : '' }}" type="text" name="page_link" id="page_link" value="{{ old('page_link', $page->page_link) }}" required>
+                @if($errors->has('page_link'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('page_link') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.page.fields.page_link_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label for="logo">{{ trans('cruds.page.fields.logo') }}</label>
+                <div class="needsclick dropzone {{ $errors->has('logo') ? 'is-invalid' : '' }}" id="logo-dropzone">
+                </div>
+                @if($errors->has('logo'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('logo') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.page.fields.logo_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-danger" type="submit">
+                    {{ trans('global.save') }}
+                </button>
+            </div>
+        </form>
     </div>
 </div>
+
+
+
 @endsection
 
 @section('scripts')

@@ -16,11 +16,7 @@ class UpdatePageRequest extends FormRequest
 
     public function rules()
     {
-        return [
-            'client_id' => [
-                'required',
-                'integer',
-            ],
+        return [ 
             'page_name' => [
                 'string',
                 'required',

@@ -26,7 +26,7 @@ class OrderDetail extends Model
         'price',
         'quantity',
         'total_cost',
-        'color',
+        'colors',
         'size',
         'returned',
         'created_at',

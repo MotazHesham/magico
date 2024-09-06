@@ -6,34 +6,78 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\MediaUploadingTrait;
 use App\Http\Requests\MassDestroyPageRequest;
 use App\Http\Requests\StorePageRequest;
-use App\Http\Requests\UpdatePageRequest;
-use App\Models\Client;
+use App\Http\Requests\UpdatePageRequest; 
 use App\Models\Page;
 use Gate;
 use Illuminate\Http\Request;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Symfony\Component\HttpFoundation\Response;
+use Yajra\DataTables\Facades\DataTables;
 
 class PagesController extends Controller
 {
     use MediaUploadingTrait;
 
-    public function index()
+    public function index(Request $request)
     {
         abort_if(Gate::denies('page_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $pages = Page::with(['client', 'media'])->get();
+        if ($request->ajax()) {
+            $query = Page::query()->select(sprintf('%s.*', (new Page)->table));
+            $table = Datatables::of($query);
 
-        return view('frontend.pages.index', compact('pages'));
+            $table->addColumn('placeholder', '&nbsp;');
+            $table->addColumn('actions', '&nbsp;');
+
+            $table->editColumn('actions', function ($row) {
+                $viewGate      = 'page_show';
+                $editGate      = 'page_edit';
+                $deleteGate    = 'page_delete';
+                $crudRoutePart = 'pages';
+
+                return view('partials.datatablesActions_frontend', compact(
+                    'viewGate',
+                    'editGate',
+                    'deleteGate',
+                    'crudRoutePart',
+                    'row'
+                ));
+            });
+
+            $table->editColumn('id', function ($row) {
+                return $row->id ? $row->id : '';
+            }); 
+            $table->editColumn('page_name', function ($row) {
+                return $row->page_name ? $row->page_name : '';
+            });
+            $table->editColumn('page_link', function ($row) {
+                return $row->page_link ? $row->page_link : '';
+            });
+            $table->editColumn('logo', function ($row) {
+                if ($photo = $row->logo) {
+                    return sprintf(
+                        '<a href="%s" target="_blank"><img src="%s" width="50px" height="50px"></a>',
+                        $photo->url,
+                        $photo->thumbnail
+                    );
+                }
+
+                return '';
+            });
+
+            $table->rawColumns(['actions', 'placeholder' , 'logo']);
+
+            return $table->make(true);
+        }
+
+        return view('frontend.pages.index');
     }
 
     public function create()
     {
-        abort_if(Gate::denies('page_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('page_create'), Response::HTTP_FORBIDDEN, '403 Forbidden'); 
 
-        $clients = Client::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        return view('frontend.pages.create', compact('clients'));
+        return view('frontend.pages.create');
     }
 
     public function store(StorePageRequest $request)
@@ -55,11 +99,7 @@ class PagesController extends Controller
     {
         abort_if(Gate::denies('page_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $clients = Client::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $page->load('client');
-
-        return view('frontend.pages.edit', compact('clients', 'page'));
+        return view('frontend.pages.edit', compact('page'));
     }
 
     public function update(UpdatePageRequest $request, Page $page)
@@ -84,7 +124,7 @@ class PagesController extends Controller
     {
         abort_if(Gate::denies('page_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $page->load('client', 'pageProducts');
+        $page->load('pageProducts');
 
         return view('frontend.pages.show', compact('page'));
     }

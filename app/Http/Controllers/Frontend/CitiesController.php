@@ -11,18 +11,59 @@ use App\Models\Country;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Yajra\DataTables\Facades\DataTables;
 
 class CitiesController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         abort_if(Gate::denies('city_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $cities = City::with(['country'])->get();
+        if ($request->ajax()) {
+            $query = City::with(['country'])->select(sprintf('%s.*', (new City)->table));
+            $table = Datatables::of($query);
 
-        return view('frontend.cities.index', compact('cities'));
+            $table->addColumn('placeholder', '&nbsp;');
+            $table->addColumn('actions', '&nbsp;');
+
+            $table->editColumn('actions', function ($row) {
+                $viewGate      = 'city_show';
+                $editGate      = 'city_edit';
+                $deleteGate    = 'city_delete';
+                $crudRoutePart = 'cities';
+
+                return view('partials.datatablesActions_frontend', compact(
+                    'viewGate',
+                    'editGate',
+                    'deleteGate',
+                    'crudRoutePart',
+                    'row'
+                ));
+            });
+
+            $table->editColumn('id', function ($row) {
+                return $row->id ? $row->id : '';
+            });
+            $table->editColumn('name', function ($row) {
+                return $row->name ? $row->name : '';
+            });
+            $table->editColumn('cost', function ($row) {
+                return $row->cost ? $row->cost : '';
+            });
+            $table->editColumn('code', function ($row) {
+                return $row->code ? $row->code : '';
+            });
+            $table->addColumn('country_name', function ($row) {
+                return $row->country ? $row->country->name : '';
+            });
+
+            $table->rawColumns(['actions', 'placeholder', 'country']);
+
+            return $table->make(true);
+        }
+
+        return view('frontend.cities.index');
     }
-
     public function create()
     {
         abort_if(Gate::denies('city_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
@@ -34,7 +75,9 @@ class CitiesController extends Controller
 
     public function store(StoreCityRequest $request)
     {
-        $city = City::create($request->all());
+        $validatedRequest = $request->all(); 
+        $validatedRequest['predictions'] = implode(',',$request->predictions); 
+        $city = City::create($validatedRequest);
 
         return redirect()->route('frontend.cities.index');
     }
@@ -52,7 +95,9 @@ class CitiesController extends Controller
 
     public function update(UpdateCityRequest $request, City $city)
     {
-        $city->update($request->all());
+        $validatedRequest = $request->all(); 
+        $validatedRequest['predictions'] = implode(',',$request->predictions); 
+        $city->update($validatedRequest);
 
         return redirect()->route('frontend.cities.index');
     }

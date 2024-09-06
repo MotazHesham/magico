@@ -15,8 +15,8 @@ class CreateSubscriptionsTable extends Migration
             $table->longText('note')->nullable();
             $table->decimal('price', 15, 2)->nullable();
             $table->integer('tokens')->nullable();
-            $table->integer('remaining_tokens')->nullable();
-            $table->boolean('is_active')->default(0)->nullable();
+            // $table->integer('remaining_tokens')->nullable();
+            // $table->boolean('is_active')->default(0)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

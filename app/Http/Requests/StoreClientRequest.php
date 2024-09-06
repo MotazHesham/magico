@@ -33,6 +33,11 @@ class StoreClientRequest extends FormRequest
                 'string',
                 'required',
             ],
+            'domain' => [
+                'string',
+                'required',
+                'unique:domains,domain'
+            ],
         ];
     }
 }

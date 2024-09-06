@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Traits\Auditable;
+use Carbon\Carbon;
 use DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -15,6 +16,7 @@ class Shift extends Model
     public $table = 'shifts';
 
     protected $dates = [
+        'start_date',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -22,6 +24,7 @@ class Shift extends Model
 
     protected $fillable = [
         'user_id',
+        'start_date',
         'operating_status',
         'created_at',
         'updated_at',
@@ -43,11 +46,21 @@ class Shift extends Model
         return $date->format('Y-m-d H:i:s');
     }
 
+    public function getStartDateAttribute($value)
+    {
+        return $value ? Carbon::parse($value)->format(config('panel.date_format')) : null;
+    } 
+    
     public function shiftOrders()
     {
         return $this->hasMany(Order::class, 'shift_id', 'id');
     }
 
+    public function shiftMessageGenerations()
+    {
+        return $this->hasMany(MessageGeneration::class, 'shift_id', 'id');
+    }
+    
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');

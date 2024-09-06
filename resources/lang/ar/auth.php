@@ -1,8 +1,8 @@
 <?php
 
 return [
-    'failed'   => 'بيانات الدخول غير صحيحة',
-    'password' => 'كلمة السر غير صحيحة',
-    'throttle' => 'وصلت إلى العدد الأقصى من المحاولات. الرجاء المحاولة لاحقا',
+    'failed'   => 'These credentials do not match our records.',
+    'password' => 'The provided password is incorrect.',
+    'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
 
 ];

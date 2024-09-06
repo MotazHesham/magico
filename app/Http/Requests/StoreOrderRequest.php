@@ -17,14 +17,14 @@ class StoreOrderRequest extends FormRequest
     public function rules()
     {
         return [
-            'full_massage' => [
+            'full_message' => [
                 'required',
             ],
-            'tokens' => [
+            'shift_id' => [
                 'required',
-                'integer',
-                'min:-2147483648',
-                'max:2147483647',
+            ],
+            'message_generation_id' => [
+                'required',
             ],
             'name' => [
                 'string',

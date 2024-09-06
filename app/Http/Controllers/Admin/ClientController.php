@@ -8,6 +8,7 @@ use App\Http\Requests\MassDestroyClientRequest;
 use App\Http\Requests\StoreClientRequest;
 use App\Http\Requests\UpdateClientRequest;
 use App\Models\Client;
+use App\Models\Tenant;
 use Gate;
 use Illuminate\Http\Request;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -18,12 +19,22 @@ class ClientController extends Controller
 {
     use MediaUploadingTrait;
 
+    public function update_statuses(Request $request){
+        $client = Client::findOrFail($request->id);
+        $client->load('tenants');
+        if($request->type == 'canGenerate'){
+            $tenant = $client->tenants()->first();
+            $tenant->update(['canGenerate' => $request->status]);
+            return 1;
+        }
+        return 0; 
+    }
     public function index(Request $request)
     {
         abort_if(Gate::denies('client_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         if ($request->ajax()) {
-            $query = Client::query()->select(sprintf('%s.*', (new Client)->table));
+            $query = Client::with('tenants')->select(sprintf('%s.*', (new Client)->table));
             $table = Datatables::of($query);
 
             $table->addColumn('placeholder', '&nbsp;');
@@ -67,11 +78,19 @@ class ClientController extends Controller
                         $photo->thumbnail
                     );
                 }
-
+                
                 return '';
             });
+            $table->editColumn('messageGeneration', function ($row) {   
+                $tenant = $row->tenants()->first();
+                $canGenerate = $tenant->canGenerate;
+                return ' <label class="c-switch c-switch-pill c-switch-success">
+                            <input onchange="update_statuses(this,\'canGenerate\')" value="' . $row->id . '" type="checkbox" class="c-switch-input" '. ($canGenerate ? "checked" : null) .'>
+                            <span class="c-switch-slider"></span>
+                        </label>';
+            });
 
-            $table->rawColumns(['actions', 'placeholder', 'logo']);
+            $table->rawColumns(['actions', 'placeholder', 'logo','messageGeneration']);
 
             return $table->make(true);
         }
@@ -89,6 +108,13 @@ class ClientController extends Controller
     public function store(StoreClientRequest $request)
     {
         $client = Client::create($request->all());
+
+        $tenant = Tenant::create();
+        $tenant->createDomain([
+            'domain' => $request->domain,
+        ]);
+
+        $client->tenants()->attach($tenant->id);
 
         if ($request->input('logo', false)) {
             $client->addMedia(storage_path('tmp/uploads/' . basename($request->input('logo'))))->toMediaCollection('logo');

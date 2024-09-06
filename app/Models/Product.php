@@ -25,6 +25,7 @@ class Product extends Model
         'name',
         'price',
         'quantity',
+        'predictions',
         'colors',
         'sizes',
         'created_at',

@@ -10,18 +10,53 @@ use App\Models\Country;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Yajra\DataTables\Facades\DataTables;
 
 class CountriesController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         abort_if(Gate::denies('country_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $countries = Country::all();
+        if ($request->ajax()) {
+            $query = Country::query()->select(sprintf('%s.*', (new Country)->table));
+            $table = Datatables::of($query);
 
-        return view('frontend.countries.index', compact('countries'));
+            $table->addColumn('placeholder', '&nbsp;');
+            $table->addColumn('actions', '&nbsp;');
+
+            $table->editColumn('actions', function ($row) {
+                $viewGate      = 'country_show';
+                $editGate      = 'country_edit';
+                $deleteGate    = 'country_delete';
+                $crudRoutePart = 'countries';
+
+                return view('partials.datatablesActions_frontend', compact(
+                    'viewGate',
+                    'editGate',
+                    'deleteGate',
+                    'crudRoutePart',
+                    'row'
+                ));
+            });
+
+            $table->editColumn('id', function ($row) {
+                return $row->id ? $row->id : '';
+            });
+            $table->editColumn('name', function ($row) {
+                return $row->name ? $row->name : '';
+            });
+            $table->editColumn('short_code', function ($row) {
+                return $row->short_code ? $row->short_code : '';
+            });
+
+            $table->rawColumns(['actions', 'placeholder']);
+
+            return $table->make(true);
+        }
+
+        return view('frontend.countries.index');
     }
-
     public function create()
     {
         abort_if(Gate::denies('country_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
@@ -31,7 +66,9 @@ class CountriesController extends Controller
 
     public function store(StoreCountryRequest $request)
     {
-        $country = Country::create($request->all());
+        $validatedRequest = $request->all(); 
+        $validatedRequest['predictions'] = implode(',',$request->predictions); 
+        $country = Country::create($validatedRequest);
 
         return redirect()->route('frontend.countries.index');
     }
@@ -45,7 +82,9 @@ class CountriesController extends Controller
 
     public function update(UpdateCountryRequest $request, Country $country)
     {
-        $country->update($request->all());
+        $validatedRequest = $request->all(); 
+        $validatedRequest['predictions'] = implode(',',$request->predictions); 
+        $country->update($validatedRequest);
 
         return redirect()->route('frontend.countries.index');
     }

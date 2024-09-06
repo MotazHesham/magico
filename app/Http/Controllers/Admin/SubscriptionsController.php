@@ -62,14 +62,14 @@ class SubscriptionsController extends Controller
             $table->editColumn('tokens', function ($row) {
                 return $row->tokens ? $row->tokens : '';
             });
-            $table->editColumn('remaining_tokens', function ($row) {
-                return $row->remaining_tokens ? $row->remaining_tokens : '';
-            });
-            $table->editColumn('is_active', function ($row) {
-                return '<input type="checkbox" disabled ' . ($row->is_active ? 'checked' : null) . '>';
-            });
+            // $table->editColumn('remaining_tokens', function ($row) {
+            //     return $row->remaining_tokens ? $row->remaining_tokens : '';
+            // });
+            // $table->editColumn('is_active', function ($row) {
+            //     return '<input type="checkbox" disabled ' . ($row->is_active ? 'checked' : null) . '>';
+            // });
 
-            $table->rawColumns(['actions', 'placeholder', 'client', 'package', 'is_active']);
+            $table->rawColumns(['actions', 'placeholder', 'client', 'package' ]);
 
             return $table->make(true);
         }
@@ -90,7 +90,19 @@ class SubscriptionsController extends Controller
 
     public function store(StoreSubscriptionRequest $request)
     {
-        $subscription = Subscription::create($request->all());
+        $package = Package::findOrFail($request->package_id);
+        $client = Client::findOrFail($request->client_id);
+        $tenant = $client->tenants()->firstOrFail();
+
+        $validatedRequest = $request->all();
+        $validatedRequest['price'] = $package->price;
+        $validatedRequest['tokens'] = $package->tokens;
+        Subscription::create($validatedRequest); 
+
+        $tenant->update([
+            'tokens' => $tenant->tokens  + $package->tokens,
+            'canGenerate' => 1
+        ]);  
 
         return redirect()->route('admin.subscriptions.index');
     }

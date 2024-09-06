@@ -20,9 +20,7 @@ class Order extends Model
         'deleted_at',
     ];
 
-    protected $fillable = [
-        'full_massage',
-        'tokens',
+    protected $fillable = [ 
         'name',
         'phone_number',
         'phone_number_2',
@@ -46,6 +44,7 @@ class Order extends Model
         'prepare_delviery' => 'تحهيز للشحن',
         'on_delivery'      => 'ارسال للشحن',
         'delivered'        => 'تم التسليم',
+        'canceled'        => 'الغاء',
         'returned_part'    => 'مرتجع جزئي',
         'returned_full'    => 'مرتجع كامل',
     ];
@@ -73,5 +72,10 @@ class Order extends Model
     public function city()
     {
         return $this->belongsTo(City::class, 'city_id');
+    }
+
+    public function messageGeneration()
+    {
+        return $this->hasOne(MessageGeneration::class, 'order_id');
     }
 }
