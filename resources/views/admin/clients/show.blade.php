@@ -57,6 +57,18 @@
                     </tr>
                     <tr>
                         <th>
+                            {{ trans('cruds.client.fields.domain') }}
+                        </th>
+                        <td>
+                            @foreach($client->tenants as $tenant)
+                                @foreach($tenant->domains as $domain)
+                                    <a target="_blanc" href="http://{{ $domain->domain }}">{{ $domain->domain }}</a>
+                                @endforeach
+                            @endforeach 
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
                             {{ trans('cruds.client.fields.logo') }}
                         </th>
                         <td>
