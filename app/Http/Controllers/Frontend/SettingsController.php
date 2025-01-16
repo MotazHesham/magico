@@ -32,6 +32,7 @@ class SettingsController extends Controller
     {  
         if(tenant('theme_id') == 1){
             if($request->setting_type == 'setting_1'){ 
+                Setting::updateOrCreate(['key' => 'site_name'], ['value' => $request->site_name]);
                 Setting::updateOrCreate(['key' => 'phone'], ['value' => $request->phone]);
                 Setting::updateOrCreate(['key' => 'email'], ['value' => $request->email]);
                 Setting::updateOrCreate(['key' => 'address'], ['value' => $request->address]);

@@ -2,7 +2,11 @@
 
     <div class="c-sidebar-brand d-md-down-none">
         <a class="c-sidebar-brand-full h4" href="#">
-            {{ trans('panel.site_title') }}
+            @if(get_setting('site_name'))
+                {{ get_setting('site_name') }}
+            @else
+                {{ trans('panel.site_title') }}
+            @endif
         </a>
     </div>
 

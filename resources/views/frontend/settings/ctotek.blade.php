@@ -63,6 +63,11 @@
                     <input type="hidden" name="setting_type" value="setting_1">
                     <div class="row">
                         <div class="form-group col-md-6">
+                            <label>اسم الموقع</label>
+                            <input class="form-control" type="text" name="site_name"
+                                value="{{ get_setting('site_name') }}">
+                        </div>
+                        <div class="form-group col-md-6">
                             <label>رقم الجوال</label>
                             <input class="form-control" type="text" name="phone"
                                 value="{{ get_setting('phone') }}">
