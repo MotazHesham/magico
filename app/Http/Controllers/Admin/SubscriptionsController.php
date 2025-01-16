@@ -9,6 +9,7 @@ use App\Http\Requests\UpdateSubscriptionRequest;
 use App\Models\Client;
 use App\Models\Package;
 use App\Models\Subscription;
+use App\Models\Theme;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -85,7 +86,9 @@ class SubscriptionsController extends Controller
 
         $packages = Package::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        return view('admin.subscriptions.create', compact('clients', 'packages'));
+        $themes = Theme::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        return view('admin.subscriptions.create', compact('clients', 'packages','themes'));
     }
 
     public function store(StoreSubscriptionRequest $request)
@@ -101,7 +104,8 @@ class SubscriptionsController extends Controller
 
         $tenant->update([
             'tokens' => $tenant->tokens  + $package->tokens,
-            'canGenerate' => 1
+            'canGenerate' => 1,
+            'theme_id' => $request->theme_id
         ]);  
 
         return redirect()->route('admin.subscriptions.index');

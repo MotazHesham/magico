@@ -19,12 +19,17 @@ use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
 |
 */
 
+
 Route::middleware([
     'web',
     InitializeTenancyByDomain::class,
     PreventAccessFromCentralDomains::class,
 ])->group(function () {
     
+    Route::get('/', 'App\Http\Controllers\Frontend\HomeController@home')->name('home');
+
+    Route::post('send_contract_us', 'App\Http\Controllers\Frontend\HomeController@send_contract_us')->name('frontend.send_contract_us');
+
     Route::get('/login', [LoginController::class, 'showLoginForm']);
     Route::post('/login', [LoginController::class, 'login'])->name('login');
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
@@ -55,13 +60,13 @@ Route::middleware([
         // User Alerts
         Route::delete('user-alerts/destroy', 'UserAlertsController@massDestroy')->name('user-alerts.massDestroy');
         Route::resource('user-alerts', 'UserAlertsController', ['except' => ['edit', 'update']]); 
-    
+        
         // Pages
         Route::delete('pages/destroy', 'PagesController@massDestroy')->name('pages.massDestroy');
         Route::post('pages/media', 'PagesController@storeMedia')->name('pages.storeMedia');
         Route::post('pages/ckmedia', 'PagesController@storeCKEditorImages')->name('pages.storeCKEditorImages');
         Route::resource('pages', 'PagesController');
-    
+
         // Countries
         Route::delete('countries/destroy', 'CountriesController@massDestroy')->name('countries.massDestroy');
         Route::resource('countries', 'CountriesController');
@@ -117,7 +122,63 @@ Route::middleware([
         Route::delete('shifts/destroy', 'ShiftsController@massDestroy')->name('shifts.massDestroy');
         Route::get('shifts/updateStage/{stage}/{id}', 'ShiftsController@updateStage')->name('shifts.updateStage');
         Route::resource('shifts', 'ShiftsController');
-        
+
+        // Sliders
+        Route::delete('sliders/destroy', 'SlidersController@massDestroy')->name('sliders.massDestroy');
+        Route::post('sliders/media', 'SlidersController@storeMedia')->name('sliders.storeMedia');
+        Route::post('sliders/ckmedia', 'SlidersController@storeCKEditorImages')->name('sliders.storeCKEditorImages');
+        Route::resource('sliders', 'SlidersController');
+
+        // Creative Works
+        Route::delete('creative-works/destroy', 'CreativeWorksController@massDestroy')->name('creative-works.massDestroy');
+        Route::post('creative-works/media', 'CreativeWorksController@storeMedia')->name('creative-works.storeMedia');
+        Route::post('creative-works/ckmedia', 'CreativeWorksController@storeCKEditorImages')->name('creative-works.storeCKEditorImages');
+        Route::resource('creative-works', 'CreativeWorksController');
+
+        // Services
+        Route::delete('services/destroy', 'ServicesController@massDestroy')->name('services.massDestroy');
+        Route::post('services/media', 'ServicesController@storeMedia')->name('services.storeMedia');
+        Route::post('services/ckmedia', 'ServicesController@storeCKEditorImages')->name('services.storeCKEditorImages');
+        Route::resource('services', 'ServicesController');
+
+        // Testimonials
+        Route::delete('testimonials/destroy', 'TestimonialsController@massDestroy')->name('testimonials.massDestroy');
+        Route::post('testimonials/media', 'TestimonialsController@storeMedia')->name('testimonials.storeMedia');
+        Route::post('testimonials/ckmedia', 'TestimonialsController@storeCKEditorImages')->name('testimonials.storeCKEditorImages');
+        Route::resource('testimonials', 'TestimonialsController');
+
+        // Contactus
+        Route::delete('contactus/destroy', 'ContactusController@massDestroy')->name('contactus.massDestroy');
+        Route::resource('contactus', 'ContactusController');
+
+        // Settings
+        Route::post('settings/media', 'SettingsController@storeMedia')->name('settings.storeMedia'); 
+        Route::post('settings/ckmedia', 'SettingsController@storeCKEditorImages')->name('settings.storeCKEditorImages');
+        Route::get('settings', 'SettingsController@index')->name('settings.index');
+        Route::post('settings/update', 'SettingsController@update')->name('settings.update');
+
+        // Faq Category
+        Route::delete('faq-categories/destroy', 'FaqCategoryController@massDestroy')->name('faq-categories.massDestroy');
+        Route::resource('faq-categories', 'FaqCategoryController');
+
+        // Faq Question
+        Route::delete('faq-questions/destroy', 'FaqQuestionController@massDestroy')->name('faq-questions.massDestroy');
+        Route::resource('faq-questions', 'FaqQuestionController');
+
+        // Content Category
+        Route::delete('content-categories/destroy', 'ContentCategoryController@massDestroy')->name('content-categories.massDestroy');
+        Route::resource('content-categories', 'ContentCategoryController');
+
+        // Content Tag
+        Route::delete('content-tags/destroy', 'ContentTagController@massDestroy')->name('content-tags.massDestroy');
+        Route::resource('content-tags', 'ContentTagController');
+
+        // Content Page
+        Route::delete('content-pages/destroy', 'ContentPageController@massDestroy')->name('content-pages.massDestroy');
+        Route::post('content-pages/media', 'ContentPageController@storeMedia')->name('content-pages.storeMedia');
+        Route::post('content-pages/ckmedia', 'ContentPageController@storeCKEditorImages')->name('content-pages.storeCKEditorImages');
+        Route::resource('content-pages', 'ContentPageController');
+
         // Message Generations 
         Route::resource('message-generations', 'MessageGenerationsController'); 
         

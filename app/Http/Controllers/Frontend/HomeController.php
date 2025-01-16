@@ -2,8 +2,57 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Models\Contactu;
+use App\Models\CreativeWork;
+use App\Models\Service;
+use App\Models\Slider;
+use App\Models\Testimonial;
+use Illuminate\Http\Request;
+
 class HomeController
 {
+    public function send_contract_us(Request $request){
+        $request->validate([ 
+            'name' => [
+                'max:255',
+                'required',
+            ],
+            'phone' => [
+                'max:255',
+                'required',
+            ],
+            'email' => [
+                'max:255',
+                'required',
+            ],
+            'subject' => [
+                'max:255',
+                'required',
+            ],
+            'message' => [
+                'string',
+                'required',
+            ],
+        ]);
+
+        Contactu::create($request->only(['name', 'email', 'phone', 'message','subject']));
+        toast('تم الارسال بنجاح','success');
+        return redirect()->route('home');
+    }
+    public function home(){
+        
+        if (tenancy()->initialized) { 
+            if($theme_id = tenant('theme_id')){
+                $sliders = Slider::where('active',1)->take(8)->get();
+                $creativeWorks = CreativeWork::take(12)->get();
+                $services = Service::take(12)->get();
+                $testimonials = Testimonial::take(12)->get();
+                return view('themes.ctotek.index',compact('sliders','creativeWorks','services','testimonials'));
+            }
+        }
+        return view('welcome');
+    }
+
     public function index()
     {
         $settings1 = [

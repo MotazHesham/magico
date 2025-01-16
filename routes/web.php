@@ -3,10 +3,12 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::view('/', 'welcome');
 
 foreach (config('tenancy.central_domains') as $domain) {
     Route::domain($domain)->group(function () {
+
+        Route::redirect('/', 'admin/login');
+        Route::redirect('/home', 'admin');
 
         Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
             Auth::routes();
@@ -57,6 +59,12 @@ foreach (config('tenancy.central_domains') as $domain) {
             // Packages
             Route::delete('packages/destroy', 'PackagesController@massDestroy')->name('packages.massDestroy');
             Route::resource('packages', 'PackagesController'); 
+
+            // Themes
+            Route::delete('themes/destroy', 'ThemesController@massDestroy')->name('themes.massDestroy');
+            Route::post('themes/media', 'ThemesController@storeMedia')->name('themes.storeMedia');
+            Route::post('themes/ckmedia', 'ThemesController@storeCKEditorImages')->name('themes.storeCKEditorImages');
+            Route::resource('themes', 'ThemesController');
 
             Route::get('messenger', 'MessengerController@index')->name('messenger.index');
             Route::get('messenger/create', 'MessengerController@createTopic')->name('messenger.createTopic');

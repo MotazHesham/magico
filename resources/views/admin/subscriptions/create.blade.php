@@ -38,6 +38,20 @@
                 <span class="help-block">{{ trans('cruds.subscription.fields.package_helper') }}</span>
             </div>
             <div class="form-group">
+                <label  for="theme_id">{{ trans('cruds.subscription.fields.theme') }}</label>
+                <select class="form-control select2 {{ $errors->has('theme') ? 'is-invalid' : '' }}" name="theme_id" id="theme_id" >
+                    @foreach($themes as $id => $entry)
+                        <option value="{{ $id }}" {{ old('theme_id') == $id ? 'selected' : '' }}>{{ $entry }}</option>
+                    @endforeach
+                </select>
+                @if($errors->has('theme'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('theme') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.subscription.fields.theme_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <label class="required" for="start_date">{{ trans('cruds.subscription.fields.start_date') }}</label>
                 <input class="form-control date {{ $errors->has('start_date') ? 'is-invalid' : '' }}" type="text" name="start_date" id="start_date" value="{{ old('start_date') }}" required>
                 @if($errors->has('start_date'))

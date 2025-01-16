@@ -141,6 +141,26 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'id'    => $i++,
+                'title' => 'theme_create',
+            ],
+            [
+                'id'    => $i++,
+                'title' => 'theme_edit',
+            ],
+            [
+                'id'    => $i++,
+                'title' => 'theme_show',
+            ],
+            [
+                'id'    => $i++,
+                'title' => 'theme_delete',
+            ],
+            [
+                'id'    => $i++,
+                'title' => 'theme_access',
+            ],
+            [
+                'id'    => $i++,
                 'title' => 'profile_password_edit',
             ],
         ];

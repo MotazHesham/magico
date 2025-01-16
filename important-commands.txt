@@ -1,0 +1,2 @@
+- rund specific seeder for all tenant 
+    php artisan tenants:seed --class="Database\Seeders\Tenant\PermissionsTableSeeder"
