@@ -72,7 +72,7 @@
     <div id="nav-bar" class="top-navbar">
         <div class="container-fluid">
             <div class="logo">
-                <a href="#"><img src="themes/ctotek/img/logo-light.png" alt=""></a>
+                <a href="#"><img src="{{ settingAsset(get_setting('logo')) }}" alt=""></a>
             </div>
             <div class="menu-icon">
                 <span class="icon">
