@@ -139,7 +139,9 @@ class SettingsController extends Controller
                 }else{
                     Setting::updateOrCreate(['key' => 'contactusimage'], ['value' => null]);
                 }
-            } 
+            }elseif($request->setting_type == 'setting_15'){  
+                Setting::updateOrCreate(['key' => 'first_color'], ['value' => $request->first_color]);  
+            }
         }else{
             
         }

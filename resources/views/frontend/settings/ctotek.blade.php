@@ -54,6 +54,12 @@
                     تواصل معنا
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link @if (request('setting_type') == 'setting_15') active @endif" href="#setting_15" role="tab"
+                    data-toggle="tab">
+                    الالوان
+                </a>
+            </li>
         </ul>
         <div class="tab-content">
             <div class="tab-pane @if (request('setting_type', 'setting_1') == 'setting_1') active @endif" role="tabpanel" id="setting_1">
@@ -350,6 +356,23 @@
                     </div>
                 </form>
             </div>  
+            <div class="tab-pane @if (request('setting_type') == 'setting_15') active @endif" role="tabpanel" id="setting_15">
+                <form method="POST" action="{{ route('frontend.settings.update') }}" enctype="multipart/form-data"
+                    class="p-4">
+                    @csrf
+                    <input type="hidden" name="setting_type" value="setting_15"> 
+                    <div class="form-group">
+                        <label>First color</label>
+                        <input class="form-control" type="color" name="first_color"
+                            value="{{ get_setting('first_color') }}">
+                    </div> 
+                    <div class="form-group">
+                        <button class="btn btn-danger" type="submit">
+                            {{ trans('global.save') }}
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>

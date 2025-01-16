@@ -19,6 +19,11 @@
     <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800&amp;display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:400,700&amp;display=swap" rel="stylesheet">
 
+    <style> 
+        :root  {
+            --first-color: {{ get_setting('first_color','#FF9000') }};  
+        } 
+    </style>
     <!-- Bootstrap Css -->
     <link rel="stylesheet" href="themes/ctotek/css/plugins/bootstrap.css" />
     <!-- Animate Css -->

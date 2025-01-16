@@ -111,7 +111,7 @@ span, a, a:hover {
     font-weight: 500;
     letter-spacing: 3px;
     text-transform: uppercase;
-    color: #FF9000;
+    color: var(--first-color);
     margin-bottom: 10px;
 }
 
@@ -170,7 +170,7 @@ span, a, a:hover {
         right: 100%;
         height: 100%;
         width: 100%;
-        background: #FF9000;
+        background: var(--first-color);
     }
 
     .pace.pace-inactive {
@@ -225,7 +225,7 @@ span, a, a:hover {
 .btn-main {
     background: transparent;
     padding: 14px 35px;
-    border: 1px solid #FF9000;
+    border: 1px solid var(--first-color);
     border-radius: 0;
     position: relative;
     overflow: hidden;
@@ -248,7 +248,7 @@ span, a, a:hover {
         left: -10px;
         right: -10px;
         bottom: 100%;
-        background: #FF9000;
+        background: var(--first-color);
         border-radius: 0 0 100% 100%/0 0 100% 100%;
         transition: all 0.6s cubic-bezier(1, 0, 0.55, 1);
     }
@@ -339,7 +339,7 @@ span, a, a:hover {
         text-align: center;
         font-size: 13px;
         font-weight: 900;
-        color: #FF9000;
+        color: var(--first-color);
         left: 0;
         top: 3px;
         height: 44px;
@@ -355,7 +355,7 @@ span, a, a:hover {
     }
 
     .progress-wrap svg.progress-circle path {
-        stroke: #FF9000;
+        stroke: var(--first-color);
         stroke-width: 4;
         box-sizing: border-box;
         transition: all 400ms linear;
@@ -1046,7 +1046,7 @@ span, a, a:hover {
 
 .author-info h5 {
     font-size: 16px;
-    color: #FF9000;
+    color: var(--first-color);
 }
 
 .author-info h6 {
@@ -1066,14 +1066,14 @@ span, a, a:hover {
 }
 
 .swiper-pagination-bullet-active {
-    background: #FF9000;
+    background: var(--first-color);
 }
 /*=====================
      14.QUOTE
 =====================*/
 
     .quote-block .content h6 {
-        color: #FF9000;
+        color: var(--first-color);
         font-size: 13px;
         font-weight: 400;
         text-transform: uppercase;
@@ -1082,7 +1082,7 @@ span, a, a:hover {
     }
 
         .quote-block .content h6 span {
-            color: #FF9000;
+            color: var(--first-color);
         }
 
     .quote-block .content h2 {
@@ -1198,7 +1198,7 @@ button, input, textarea {
 }
 
     .social-icons li a:hover {
-        color: #FF9000;
+        color: var(--first-color);
     }
 /*=====================
      16.FOOTER
@@ -1253,7 +1253,7 @@ button, input, textarea {
         }
 
             .footer .footer_menu_list li a:hover {
-                color: #FF9000;
+                color: var(--first-color);
             }
 
 .copyrights {
