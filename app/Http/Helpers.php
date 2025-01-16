@@ -20,9 +20,15 @@ use Illuminate\Support\Facades\Cache;
     if (!function_exists('get_setting')) {
         function get_setting($key, $default = null)
         {
-            $settings = Cache::Store('file')->remember('business_settings', 86400, function () {
-                return Setting::all();
-            });
+            if (tenancy()->initialized) {
+                $settings = Cache::Store('file')->remember('business_settings_'.tenant('id'), 86400, function () {
+                    return Setting::all();
+                });
+            }else{
+                $settings = Cache::Store('file')->remember('business_settings', 86400, function () {
+                    return Setting::all();
+                });
+            }
     
             $setting = $settings->where('key', $key)->first();
     
