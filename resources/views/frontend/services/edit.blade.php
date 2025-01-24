@@ -57,6 +57,7 @@
                 <div class="form-group">
                     <label for="icon">{{ trans('cruds.service.fields.icon') }}</label>
                     <select class="form-control select2" name="icon">
+                        <option value="{{ $service->icon }}">{{ $service->icon }}</option>
                         <option value="fa-align-left">&#xf036; fa-align-left</option>
                         <option value="fa-align-right">&#xf038; fa-align-right</option>
                         <option value="fa-amazon">&#xf270; fa-amazon</option>
