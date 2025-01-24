@@ -10,6 +10,9 @@
         <form method="POST" action="{{ route("frontend.creative-works.update", [$creativeWork->id]) }}" enctype="multipart/form-data">
             @method('PUT')
             @csrf
+            
+            @include('partials.langSwitcher')
+
             <div class="form-group">
                 <label class="required" for="image">{{ trans('cruds.creativeWork.fields.image') }}</label>
                 <div class="needsclick dropzone {{ $errors->has('image') ? 'is-invalid' : '' }}" id="image-dropzone">
@@ -22,8 +25,8 @@
                 <span class="help-block">{{ trans('cruds.creativeWork.fields.image_helper') }}</span>
             </div>
             <div class="form-group">
-                <label for="title_1">{{ trans('cruds.creativeWork.fields.title_1') }}</label>
-                <input class="form-control {{ $errors->has('title_1') ? 'is-invalid' : '' }}" type="text" name="title_1" id="title_1" value="{{ old('title_1', $creativeWork->title_1) }}">
+                <label for="title_1">{{ trans('cruds.creativeWork.fields.title_1') }} <i class="fas fa-language" style="color:green"></i></label>
+                <input class="form-control {{ $errors->has('title_1') ? 'is-invalid' : '' }}" type="text" name="title_1" id="title_1" value="{{ old('title_1', $creativeWork->getTranslation('title_1',currentEditingLang())) }}">
                 @if($errors->has('title_1'))
                     <div class="invalid-feedback">
                         {{ $errors->first('title_1') }}
@@ -32,8 +35,8 @@
                 <span class="help-block">{{ trans('cruds.creativeWork.fields.title_1_helper') }}</span>
             </div>
             <div class="form-group">
-                <label for="title_2">{{ trans('cruds.creativeWork.fields.title_2') }}</label>
-                <input class="form-control {{ $errors->has('title_2') ? 'is-invalid' : '' }}" type="text" name="title_2" id="title_2" value="{{ old('title_2', $creativeWork->title_2) }}">
+                <label for="title_2">{{ trans('cruds.creativeWork.fields.title_2') }} <i class="fas fa-language" style="color:green"></i></label>
+                <input class="form-control {{ $errors->has('title_2') ? 'is-invalid' : '' }}" type="text" name="title_2" id="title_2" value="{{ old('title_2', $creativeWork->getTranslation('title_2',currentEditingLang())) }}">
                 @if($errors->has('title_2'))
                     <div class="invalid-feedback">
                         {{ $errors->first('title_2') }}

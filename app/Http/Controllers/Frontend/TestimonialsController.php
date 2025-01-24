@@ -57,7 +57,14 @@ class TestimonialsController extends Controller
 
     public function update(UpdateTestimonialRequest $request, Testimonial $testimonial)
     {
+        $oldLocale = app()->getLocale();
+        if($request->has('lang') && in_array($request->lang,array_keys(config('panel.available_languages')))){ 
+            app()->setLocale($request->lang);
+        }
+
         $testimonial->update($request->all());
+
+        app()->setLocale($oldLocale);
 
         if ($request->input('image', false)) {
             if (! $testimonial->image || $request->input('image') !== $testimonial->image->file_name) {
@@ -70,7 +77,8 @@ class TestimonialsController extends Controller
             $testimonial->image->delete();
         }
 
-        return redirect()->route('frontend.testimonials.index');
+        toast('تم التحديث بنجاح','success'); 
+        return redirect()->route('frontend.testimonials.edit', [$testimonial->id, 'lang' => $request->lang]);  
     }
 
     public function show(Testimonial $testimonial)

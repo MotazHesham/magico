@@ -85,7 +85,7 @@
                     <i></i>
                     <i></i>
                 </span>
-                <span class="text">Menu</span>
+                <span class="text">Menu</span> 
             </div>
         </div>
     </div>
@@ -99,32 +99,39 @@
                         <ul class="main-menu list-unstyled">
                             <li>
                                 <div class="overflow-hidden">
-                                    <a href="#home" class="link"><span class="nm">01.</span>Home</a>
+                                    <a href="#home" class="link"><span class="nm">01.</span>{{ trans('frontend.ctotek.Home') }}</a>
                                 </div>
                             </li>
                             <li>
                                 <div class="overflow-hidden">
-                                    <a href="#about" class="link"><span class="nm">02.</span>About Us</a>
+                                    <a href="#about" class="link"><span class="nm">02.</span>{{ trans('frontend.ctotek.AboutUs') }}</a>
                                 </div>
                             </li>
                             <li>
                                 <div class="overflow-hidden">
-                                    <a href="#portfolio" class="link"><span class="nm">03.</span>Portfolio</a>
+                                    <a href="#portfolio" class="link"><span class="nm">03.</span>{{ trans('frontend.ctotek.Portfolio') }}</a>
                                 </div>
                             </li>
                             <li>
                                 <div class="overflow-hidden">
-                                    <a href="#services" class="link"><span class="nm">04.</span>Services</a>
+                                    <a href="#services" class="link"><span class="nm">04.</span>{{ trans('frontend.ctotek.Services') }}</a>
                                 </div>
                             </li>
                             <li>
                                 <div class="overflow-hidden">
-                                    <a href="#testimonial" class="link"><span class="nm">05.</span>Testimonial</a>
+                                    <a href="#testimonial" class="link"><span class="nm">05.</span>{{ trans('frontend.ctotek.Testimonial') }}</a>
                                 </div>
                             </li>
                             <li>
                                 <div class="overflow-hidden">
-                                    <a href="#contact" class="link"><span class="nm">06.</span>Contact</a>
+                                    <a href="#contact" class="link"><span class="nm">06.</span>{{ trans('frontend.ctotek.Contact') }}</a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="overflow-hidden">
+                                    <a href="{{ url()->current() }}?change_language={{ app()->getLocale() == 'ar' ? 'en' : 'ar' }}" class="link">
+                                        <span class="nm">07.</span>{{ app()->getLocale() == 'ar' ? 'English' : 'Arabic' }}
+                                    </a>
                                 </div>
                             </li>
                         </ul>
@@ -183,14 +190,14 @@
                         <div class="col-lg-6">
                             <div class="content">
                                 <div class="section-head">
-                                    <h6 class="wow">{{ get_setting('about_us_1') }}</h6>
-                                    <h3 class="wow">{!! nl2br(get_setting('about_us_2')) !!}</h3>
+                                    <h6 class="wow">{{ get_setting('about_us_1',null,app()->getLocale()) }}</h6>
+                                    <h3 class="wow">{!! nl2br(get_setting('about_us_2',null,app()->getLocale())) !!}</h3>
                                 </div>
-                                <h1 class="wow seo-title">{{ get_setting('about_us_3') }}</h1>
+                                <h1 class="wow seo-title">{{ get_setting('about_us_3',null,app()->getLocale()) }}</h1>
                                 <p class="wow fadeIn" data-wow-delay=".2s">
-                                    {!! nl2br(get_setting('about_us_4')) !!}
+                                    {!! nl2br(get_setting('about_us_4',null,app()->getLocale())) !!}
                                 </p> 
-                                {!! nl2br(get_setting('about_us_5')) !!} 
+                                {!! nl2br(get_setting('about_us_5',null,app()->getLocale())) !!} 
                             </div>
                         </div>
                         <div class="col-lg-6">
@@ -214,8 +221,8 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="section-head">
-                                <h6 class="wow">أعمال رائعة</h6>
-                                <h3 class="wow">أعمالنا الإبداعية.</h3>
+                                <h6 class="wow">{{ trans('frontend.ctotek.portfolio.1') }}</h6>
+                                <h3 class="wow">{{ trans('frontend.ctotek.portfolio.2') }}</h3>
                             </div>
                         </div>
                     </div>
@@ -266,15 +273,15 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="section-head">
-                                <h6 class="wow">تعرف علينا بشكل أفضل</h6>
-                                <h3 class="wow">أفضل خدماتنا</h3>
+                                <h6 class="wow">{{ trans('frontend.ctotek.services.1') }}</h6>
+                                <h3 class="wow">{{ trans('frontend.ctotek.services.2') }}</h3>
                             </div>
                         </div>
                     </div>
                     <div class="row align-items-center">
                         <div class="col-md-12">
                             <p class="wow fadeIn mt-4" data-wow-delay=".1s">
-                                {!! get_setting('services_text') !!}
+                                {!! get_setting('services_text',null,app()->getLocale()) !!}
                             </p>
                         </div>
                         @foreach($services as $service)
@@ -304,8 +311,8 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="section-head">
-                                <h6 class="wow">شهاداتنا</h6>
-                                <h3 class="wow">ماذا يقول عملاؤنا</h3>
+                                <h6 class="wow">{{ trans('frontend.ctotek.testimonial.1') }}</h6>
+                                <h3 class="wow">{{ trans('frontend.ctotek.testimonial.2') }}</h3>
                             </div>
                         </div>
                     </div>
@@ -342,14 +349,14 @@
                     <div class="row align-items-center">
                         <div class="col-md-8 col-lg-9">
                             <div class="content sm-mb30">
-                                <h6 class="wow">دعونا نتحدث</h6>
+                                <h6 class="wow">{{ trans('frontend.ctotek.contact.1') }}</h6>
                                 <h2 class="wow">
-                                    {!! get_setting('contact_us_text') !!}
+                                    {!! get_setting('contact_us_text',null,app()->getLocale()) !!}
                                 </h2>
                             </div>
                         </div>
                         <div class="col-md-4 col-lg-3 v-align-center">
-                            <a href="#contact" class="btn-main btn-lit"><span>تواصل معنا</span></a>
+                            <a href="#contact" class="btn-main btn-lit"><span>{{ trans('frontend.ctotek.contact.2') }}</span></a>
                         </div>
 
                     </div>
@@ -362,8 +369,8 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="section-head">
-                                <h6 class="wow">هل تحتاج إلى مساعدة!</h6>
-                                <h3 class="wow">اتصل بنا الآن.</h3>
+                                <h6 class="wow">{{ trans('frontend.ctotek.contact.3') }}</h6>
+                                <h3 class="wow">{{ trans('frontend.ctotek.contact.4') }}</h3>
                             </div>
                         </div>
                     </div>
@@ -374,7 +381,7 @@
                                     <div class="col-sm-12">
                                         <div class="contact-details">
                                             <i class="fas fa-phone"></i>
-                                            <p>اتصل بنا</p>
+                                            <p>{{ trans('frontend.ctotek.contact.5') }}</p>
                                             <h6>
                                                 <a href="tel:{{get_setting('phone')}}">{{ get_setting('phone') }}</a>
                                             </h6>
@@ -383,14 +390,14 @@
                                     <div class="col-sm-12">
                                         <div class="contact-details">
                                             <i class="fas fa-map-marker-alt"></i>
-                                            <p>تفضل بزيارة موقعنا</p>
-                                            <h6>{{ get_setting('address') }}</h6>
+                                            <p>{{ trans('frontend.ctotek.contact.6') }}</p>
+                                            <h6>{{ get_setting('address',null,app()->getLocale()) }}</h6>
                                         </div>
                                     </div>
                                     <div class="col-sm-12">
                                         <div class="contact-details">
                                             <i class="fas fa-paper-plane"></i>
-                                            <p>البريد الالكتروني</p>
+                                            <p>{{ trans('frontend.ctotek.contact.7') }}</p>
                                             <h6>
                                                 <a href="mailto:{{ get_setting('email') }}">
                                                     {{ get_setting('email') }}
@@ -401,7 +408,7 @@
                                     <div class="col-sm-12">
                                         <div class="contact-details">
                                             <i class="fas fa-share-alt"></i>
-                                            <p>وسائل التواصل الاجتماعي</p>
+                                            <p>{{ trans('frontend.ctotek.contact.8') }}</p>
                                             <ul class="social-icons mb-0 list-unstyled d-flex align-items-center">
                                                 @if(get_setting('facebook'))
                                                     <li class="mr-2"><a href="{{ get_setting('facebook') }}" target="_blank"><i class="fab fa-facebook-square"></i></a></li>
@@ -464,7 +471,7 @@
                                             </div>
                                         </div>
                                         <div class="col-md-12">
-                                            <button type="submit" class="btn-main"><span>SEND MESSAGE</span></button>
+                                            <button type="submit" class="btn-main"><span>{{ trans('frontend.ctotek.contact.9') }}</span></button>
                                         </div>
                                     </div>
                                 </div>
@@ -483,13 +490,13 @@
                                 <div class="foot_logo d-flex align-items-center justify-content-center">
                                     <img src="{{ settingAsset(get_setting('logo')) }}" class="img-fluid d-block" alt="">
                                 </div>
-                                <p class="ftr-about mx-auto">{{ get_setting('footer_text') }}</p>
+                                <p class="ftr-about mx-auto">{{ get_setting('footer_text',null,app()->getLocale()) }}</p>
                             </div>
                         </div>
                         <div class="col-lg-12">
                             <ul class="footer_menu_list list-unstyled mb-0 d-flex justify-content-center">
-                                @if(get_setting('important_links'))
-                                    @foreach(json_decode(get_setting('important_links'), true) as $key => $link)  
+                                @if(get_setting('important_links',null,app()->getLocale()))
+                                    @foreach(json_decode(get_setting('important_links',null,app()->getLocale()), true) as $key => $link)  
                                         <li>
                                             <a href="{{ $link['link'] }}" target="_blank">  
                                                 {{ $link['name'] }} 
@@ -501,7 +508,7 @@
                         </div>
                         <div class="col-lg-12">
                             <div class="copyrights">
-                                <p class="mb-0 text-center">{{ get_setting('copy_right') }}</p>
+                                <p class="mb-0 text-center">{{ get_setting('copy_right',null,app()->getLocale()) }}</p>
                             </div>
                         </div>
                     </div>

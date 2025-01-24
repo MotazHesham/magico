@@ -9,10 +9,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\Translatable\HasTranslations;
 
 class Testimonial extends Model implements HasMedia
 {
     use SoftDeletes, InteractsWithMedia, HasFactory;
+    use HasTranslations;
+
+    public $translatable = ['name','job','title','comment'];
 
     public $table = 'testimonials';
 

@@ -57,7 +57,14 @@ class CreativeWorksController extends Controller
 
     public function update(UpdateCreativeWorkRequest $request, CreativeWork $creativeWork)
     {
+        $oldLocale = app()->getLocale();
+        if($request->has('lang') && in_array($request->lang,array_keys(config('panel.available_languages')))){ 
+            app()->setLocale($request->lang);
+        }
+
         $creativeWork->update($request->all());
+
+        app()->setLocale($oldLocale);
 
         if ($request->input('image', false)) {
             if (! $creativeWork->image || $request->input('image') !== $creativeWork->image->file_name) {
@@ -69,8 +76,9 @@ class CreativeWorksController extends Controller
         } elseif ($creativeWork->image) {
             $creativeWork->image->delete();
         }
-
-        return redirect()->route('frontend.creative-works.index');
+        
+        toast('تم التحديث بنجاح','success');
+        return redirect()->route('frontend.creative-works.edit', [$creativeWork->id, 'lang' => $request->lang]);
     }
 
     public function show(CreativeWork $creativeWork)

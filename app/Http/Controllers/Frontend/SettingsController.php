@@ -35,7 +35,7 @@ class SettingsController extends Controller
                 Setting::updateOrCreate(['key' => 'site_name'], ['value' => $request->site_name]);
                 Setting::updateOrCreate(['key' => 'phone'], ['value' => $request->phone]);
                 Setting::updateOrCreate(['key' => 'email'], ['value' => $request->email]);
-                Setting::updateOrCreate(['key' => 'address'], ['value' => $request->address]);
+                Setting::updateOrCreate(['key' => 'address','lang' => $request->lang], ['value' => $request->address]);
 
                 if ($request->has('logo')) {
                     if( $request->input('logo') != "undefined"){ 
@@ -84,11 +84,11 @@ class SettingsController extends Controller
                     Setting::updateOrCreate(['key' => 'metaimage'], ['value' => null]);
                 }
             }elseif($request->setting_type == 'setting_7'){
-                Setting::updateOrCreate(['key' => 'about_us_1'], ['value' => $request->about_us_1]); 
-                Setting::updateOrCreate(['key' => 'about_us_2'], ['value' => $request->about_us_2]); 
-                Setting::updateOrCreate(['key' => 'about_us_3'], ['value' => $request->about_us_3]); 
-                Setting::updateOrCreate(['key' => 'about_us_4'], ['value' => $request->about_us_4]); 
-                Setting::updateOrCreate(['key' => 'about_us_5'], ['value' => $request->about_us_5]); 
+                Setting::updateOrCreate(['key' => 'about_us_1','lang' => $request->lang], ['value' => $request->about_us_1]); 
+                Setting::updateOrCreate(['key' => 'about_us_2','lang' => $request->lang], ['value' => $request->about_us_2]); 
+                Setting::updateOrCreate(['key' => 'about_us_3','lang' => $request->lang], ['value' => $request->about_us_3]); 
+                Setting::updateOrCreate(['key' => 'about_us_4','lang' => $request->lang], ['value' => $request->about_us_4]); 
+                Setting::updateOrCreate(['key' => 'about_us_5','lang' => $request->lang], ['value' => $request->about_us_5]); 
 
                 if ($request->has('about_us_image_1')) {
                     if( $request->input('about_us_image_1') != "undefined"){ 
@@ -118,16 +118,16 @@ class SettingsController extends Controller
                 Setting::updateOrCreate(['key' => 'recaptcha_secret_key'], ['value' => $request->recaptcha_secret_key]);  
             }elseif($request->setting_type == 'setting_12'){ 
                 if($request->important_links != null && count($request->important_links) > 0){
-                    Setting::updateOrCreate(['key' => 'important_links'], ['value' => json_encode($request->important_links)]); 
+                    Setting::updateOrCreate(['key' => 'important_links','lang' => $request->lang], ['value' => json_encode($request->important_links)]); 
                 }else{
-                    Setting::updateOrCreate(['key' => 'important_links'], ['value' => null]); 
+                    Setting::updateOrCreate(['key' => 'important_links','lang' => $request->lang], ['value' => null]); 
                 }
-                Setting::updateOrCreate(['key' => 'footer_text'], ['value' => $request->footer_text]);  
-                Setting::updateOrCreate(['key' => 'copy_right'], ['value' => $request->copy_right]);  
+                Setting::updateOrCreate(['key' => 'footer_text','lang' => $request->lang], ['value' => $request->footer_text]);  
+                Setting::updateOrCreate(['key' => 'copy_right','lang' => $request->lang], ['value' => $request->copy_right]);  
             }elseif($request->setting_type == 'setting_13'){  
-                Setting::updateOrCreate(['key' => 'services_text'], ['value' => $request->services_text]);  
+                Setting::updateOrCreate(['key' => 'services_text','lang' => $request->lang], ['value' => $request->services_text]);  
             }elseif($request->setting_type == 'setting_14'){  
-                Setting::updateOrCreate(['key' => 'contact_us_text'], ['value' => $request->contact_us_text]);  
+                Setting::updateOrCreate(['key' => 'contact_us_text','lang' => $request->lang], ['value' => $request->contact_us_text]);  
                 if ($request->has('contactusimage')) {
                     if( $request->input('contactusimage') != "undefined"){ 
                         $file = new File(storage_path('tmp/uploads/' . basename($request->input('contactusimage')))); 
@@ -147,7 +147,7 @@ class SettingsController extends Controller
         }
         Artisan::call('cache:clear');
         
-        return redirect()->route('frontend.settings.index',['setting_type' => $request->setting_type]);
+        return redirect()->route('frontend.settings.index',['setting_type' => $request->setting_type,'lang' => currentEditingLang()]);
     } 
 
     

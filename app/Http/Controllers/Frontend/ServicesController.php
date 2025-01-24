@@ -57,7 +57,14 @@ class ServicesController extends Controller
 
     public function update(UpdateServiceRequest $request, Service $service)
     {
+        $oldLocale = app()->getLocale();
+        if($request->has('lang') && in_array($request->lang,array_keys(config('panel.available_languages')))){ 
+            app()->setLocale($request->lang);
+        }
+
         $service->update($request->all());
+
+        app()->setLocale($oldLocale);
 
         if ($request->input('image', false)) {
             if (! $service->image || $request->input('image') !== $service->image->file_name) {
@@ -69,8 +76,9 @@ class ServicesController extends Controller
         } elseif ($service->image) {
             $service->image->delete();
         } 
-
-        return redirect()->route('frontend.services.index');
+        
+        toast('تم التحديث بنجاح','success'); 
+        return redirect()->route('frontend.services.edit', [$service->id, 'lang' => $request->lang]);
     }
 
     public function show(Service $service)

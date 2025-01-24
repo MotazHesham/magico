@@ -6,10 +6,14 @@
         {{ trans('global.edit') }} {{ trans('cruds.slider.title_singular') }}
     </div>
 
-    <div class="card-body">
-        <form method="POST" action="{{ route("frontend.sliders.update", [$slider->id]) }}" enctype="multipart/form-data">
+    <div class="card-body"> 
+
+        <form method="POST" action="{{ route("frontend.sliders.update", [$slider->id]) }}" enctype="multipart/form-data"> 
             @method('PUT')
             @csrf
+            
+            @include('partials.langSwitcher')
+
             <div class="form-group">
                 <label class="required" for="image">{{ trans('cruds.slider.fields.image') }}</label>
                 <div class="needsclick dropzone {{ $errors->has('image') ? 'is-invalid' : '' }}" id="image-dropzone">
@@ -22,8 +26,8 @@
                 <span class="help-block">{{ trans('cruds.slider.fields.image_helper') }}</span>
             </div>
             <div class="form-group">
-                <label for="headline_1">{{ trans('cruds.slider.fields.headline_1') }}</label>
-                <input class="form-control {{ $errors->has('headline_1') ? 'is-invalid' : '' }}" type="text" name="headline_1" id="headline_1" value="{{ old('headline_1', $slider->headline_1) }}">
+                <label for="headline_1">{{ trans('cruds.slider.fields.headline_1') }} <i class="fas fa-language" style="color:green"></i> </label>
+                <input class="form-control {{ $errors->has('headline_1') ? 'is-invalid' : '' }}" type="text" name="headline_1" id="headline_1" value="{{ old('headline_1', $slider->getTranslation('headline_1',currentEditingLang())) }}">
                 @if($errors->has('headline_1'))
                     <div class="invalid-feedback">
                         {{ $errors->first('headline_1') }}
@@ -32,8 +36,8 @@
                 <span class="help-block">{{ trans('cruds.slider.fields.headline_1_helper') }}</span>
             </div>
             <div class="form-group">
-                <label for="headline_2">{{ trans('cruds.slider.fields.headline_2') }}</label>
-                <input class="form-control {{ $errors->has('headline_2') ? 'is-invalid' : '' }}" type="text" name="headline_2" id="headline_2" value="{{ old('headline_2', $slider->headline_2) }}">
+                <label for="headline_2">{{ trans('cruds.slider.fields.headline_2') }} <i class="fas fa-language" style="color:green"></i></label>
+                <input class="form-control {{ $errors->has('headline_2') ? 'is-invalid' : '' }}" type="text" name="headline_2" id="headline_2" value="{{ old('headline_2', $slider->getTranslation('headline_2',currentEditingLang())) }}">
                 @if($errors->has('headline_2'))
                     <div class="invalid-feedback">
                         {{ $errors->first('headline_2') }}
@@ -42,8 +46,8 @@
                 <span class="help-block">{{ trans('cruds.slider.fields.headline_2_helper') }}</span>
             </div>
             <div class="form-group">
-                <label for="description">{{ trans('cruds.slider.fields.description') }}</label>
-                <input class="form-control {{ $errors->has('description') ? 'is-invalid' : '' }}" type="text" name="description" id="description" value="{{ old('description', $slider->description) }}">
+                <label for="description">{{ trans('cruds.slider.fields.description') }} <i class="fas fa-language" style="color:green"></i></label>
+                <input class="form-control {{ $errors->has('description') ? 'is-invalid' : '' }}" type="text" name="description" id="description" value="{{ old('description', $slider->getTranslation('description',currentEditingLang())) }}">
                 @if($errors->has('description'))
                     <div class="invalid-feedback">
                         {{ $errors->first('description') }}
@@ -65,8 +69,8 @@
                 <span class="help-block">{{ trans('cruds.slider.fields.active_helper') }}</span>
             </div>
             <div class="form-group">
-                <label for="button_name">{{ trans('cruds.slider.fields.button_name') }}</label>
-                <input class="form-control {{ $errors->has('button_name') ? 'is-invalid' : '' }}" type="text" name="button_name" id="button_name" value="{{ old('button_name', $slider->button_name) }}">
+                <label for="button_name">{{ trans('cruds.slider.fields.button_name') }} <i class="fas fa-language" style="color:green"></i></label>
+                <input class="form-control {{ $errors->has('button_name') ? 'is-invalid' : '' }}" type="text" name="button_name" id="button_name" value="{{ old('button_name', $slider->getTranslation('button_name',currentEditingLang())) }}">
                 @if($errors->has('button_name'))
                     <div class="invalid-feedback">
                         {{ $errors->first('button_name') }}

@@ -3,6 +3,13 @@
 use App\Models\Setting;
 use Illuminate\Support\Facades\Cache;
 
+    if (!function_exists('currentEditingLang')) {
+        function currentEditingLang()
+        {
+            return request('lang',app()->getLocale());
+        }
+    }  
+
     if (!function_exists('customAsset')) {
         function customAsset($asset)
         {
@@ -18,7 +25,7 @@ use Illuminate\Support\Facades\Cache;
     }  
 
     if (!function_exists('get_setting')) {
-        function get_setting($key, $default = null)
+        function get_setting($key, $default = null, $lang = false)
         {
             if (tenancy()->initialized) {
                 $settings = Cache::Store('file')->remember('business_settings_'.tenant('id'), 86400, function () {
@@ -28,9 +35,14 @@ use Illuminate\Support\Facades\Cache;
                 $settings = Cache::Store('file')->remember('business_settings', 86400, function () {
                     return Setting::all();
                 });
-            }
-    
-            $setting = $settings->where('key', $key)->first();
+            }  
+
+            if ($lang == false) { 
+                $setting = $settings->where('key', $key)->first();
+            } else {
+                $setting = $settings->where('key', $key)->where('lang', $lang)->first();
+                $setting = !$setting ? $settings->where('key', $key)->first() : $setting;
+            } 
     
             return $setting == null ? $default : $setting->value;
         }

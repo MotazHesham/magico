@@ -18,6 +18,9 @@
                 enctype="multipart/form-data">
                 @method('PUT')
                 @csrf
+
+                @include('partials.langSwitcher')
+
                 <div class="form-group">
                     <label class="required" for="image">{{ trans('cruds.service.fields.image') }}</label>
                     <div class="needsclick dropzone {{ $errors->has('image') ? 'is-invalid' : '' }}" id="image-dropzone">
@@ -30,9 +33,9 @@
                     <span class="help-block">{{ trans('cruds.service.fields.image_helper') }}</span>
                 </div>
                 <div class="form-group">
-                    <label for="name">{{ trans('cruds.service.fields.name') }}</label>
+                    <label for="name">{{ trans('cruds.service.fields.name') }} <i class="fas fa-language" style="color:green"></i></label>
                     <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" name="name"
-                        id="name" value="{{ old('name', $service->name) }}">
+                        id="name" value="{{ old('name', $service->getTranslation('name',currentEditingLang())) }}">
                     @if ($errors->has('name'))
                         <div class="invalid-feedback">
                             {{ $errors->first('name') }}
@@ -41,9 +44,9 @@
                     <span class="help-block">{{ trans('cruds.service.fields.name_helper') }}</span>
                 </div>
                 <div class="form-group">
-                    <label for="description">{{ trans('cruds.service.fields.description') }}</label>
+                    <label for="description">{{ trans('cruds.service.fields.description') }} <i class="fas fa-language" style="color:green"></i></label>
                     <textarea class="form-control {{ $errors->has('description') ? 'is-invalid' : '' }}" name="description"
-                        id="description">{{ old('description', $service->description) }}</textarea>
+                        id="description">{{ old('description', $service->getTranslation('description',currentEditingLang())) }}</textarea>
                     @if ($errors->has('description'))
                         <div class="invalid-feedback">
                             {{ $errors->first('description') }}

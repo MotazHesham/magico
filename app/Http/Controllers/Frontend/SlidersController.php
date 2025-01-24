@@ -57,7 +57,14 @@ class SlidersController extends Controller
 
     public function update(UpdateSliderRequest $request, Slider $slider)
     {
+        $oldLocale = app()->getLocale();
+        if($request->has('lang') && in_array($request->lang,array_keys(config('panel.available_languages')))){ 
+            app()->setLocale($request->lang);
+        }
+
         $slider->update($request->all());
+
+        app()->setLocale($oldLocale);
 
         if ($request->input('image', false)) {
             if (! $slider->image || $request->input('image') !== $slider->image->file_name) {
@@ -70,7 +77,8 @@ class SlidersController extends Controller
             $slider->image->delete();
         }
 
-        return redirect()->route('frontend.sliders.index');
+        toast('تم التحديث بنجاح','success'); 
+        return redirect()->route('frontend.sliders.edit', [$slider->id, 'lang' => $request->lang]); 
     }
 
     public function show(Slider $slider)

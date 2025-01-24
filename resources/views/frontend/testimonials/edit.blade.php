@@ -10,9 +10,12 @@
         <form method="POST" action="{{ route("frontend.testimonials.update", [$testimonial->id]) }}" enctype="multipart/form-data">
             @method('PUT')
             @csrf
+
+            @include('partials.langSwitcher')
+
             <div class="form-group">
-                <label for="name">{{ trans('cruds.testimonial.fields.name') }}</label>
-                <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" name="name" id="name" value="{{ old('name', $testimonial->name) }}">
+                <label for="name">{{ trans('cruds.testimonial.fields.name') }} <i class="fas fa-language" style="color:green"></i></label>
+                <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" name="name" id="name" value="{{ old('name', $testimonial->getTranslation('name',currentEditingLang())) }}">
                 @if($errors->has('name'))
                     <div class="invalid-feedback">
                         {{ $errors->first('name') }}
@@ -21,8 +24,8 @@
                 <span class="help-block">{{ trans('cruds.testimonial.fields.name_helper') }}</span>
             </div>
             <div class="form-group">
-                <label for="job">{{ trans('cruds.testimonial.fields.job') }}</label>
-                <input class="form-control {{ $errors->has('job') ? 'is-invalid' : '' }}" type="text" name="job" id="job" value="{{ old('job', $testimonial->job) }}">
+                <label for="job">{{ trans('cruds.testimonial.fields.job') }} <i class="fas fa-language" style="color:green"></i></label>
+                <input class="form-control {{ $errors->has('job') ? 'is-invalid' : '' }}" type="text" name="job" id="job" value="{{ old('job', $testimonial->getTranslation('job',currentEditingLang())) }}">
                 @if($errors->has('job'))
                     <div class="invalid-feedback">
                         {{ $errors->first('job') }}
@@ -31,8 +34,8 @@
                 <span class="help-block">{{ trans('cruds.testimonial.fields.job_helper') }}</span>
             </div>
             <div class="form-group">
-                <label for="title">{{ trans('cruds.testimonial.fields.title') }}</label>
-                <input class="form-control {{ $errors->has('title') ? 'is-invalid' : '' }}" type="text" name="title" id="title" value="{{ old('title', $testimonial->title) }}">
+                <label for="title">{{ trans('cruds.testimonial.fields.title') }} <i class="fas fa-language" style="color:green"></i></label>
+                <input class="form-control {{ $errors->has('title') ? 'is-invalid' : '' }}" type="text" name="title" id="title" value="{{ old('title', $testimonial->getTranslation('title',currentEditingLang())) }}">
                 @if($errors->has('title'))
                     <div class="invalid-feedback">
                         {{ $errors->first('title') }}
@@ -41,8 +44,8 @@
                 <span class="help-block">{{ trans('cruds.testimonial.fields.title_helper') }}</span>
             </div>
             <div class="form-group">
-                <label for="comment">{{ trans('cruds.testimonial.fields.comment') }}</label>
-                <textarea class="form-control {{ $errors->has('comment') ? 'is-invalid' : '' }}" name="comment" id="comment">{{ old('comment', $testimonial->comment) }}</textarea>
+                <label for="comment">{{ trans('cruds.testimonial.fields.comment') }} <i class="fas fa-language" style="color:green"></i></label>
+                <textarea class="form-control {{ $errors->has('comment') ? 'is-invalid' : '' }}" name="comment" id="comment">{{ old('comment', $testimonial->getTranslation('comment',currentEditingLang())) }}</textarea>
                 @if($errors->has('comment'))
                     <div class="invalid-feedback">
                         {{ $errors->first('comment') }}

@@ -22,6 +22,7 @@ class Setting extends Model
     protected $fillable = [
         'key',
         'value',
+        'lang',
         'created_at',
         'updated_at',
         'deleted_at',

@@ -1,10 +1,18 @@
 
 <div class="card">
     <div class="card-header">
-        {{ trans('cruds.setting.title_singular') }}
+        {{ trans('cruds.setting.title_singular') }} 
+        <div style="display: inline">
+            @foreach (config('panel.available_languages') as $langLocale => $langName)  
+                <a class="btn @if(currentEditingLang() == $langLocale) btn-dark @else btn-light @endif" href="{{ url()->current() }}?lang={{ $langLocale }}">
+                    {{ $langName }}
+                </a> 
+            @endforeach 
+        </div>
     </div>
 
     <div class="card-body">
+
         <ul class="nav nav-tabs" role="tablist" id="relationship-tabs">
             <li class="nav-item">
                 <a class="nav-link @if (request('setting_type', 'setting_1') == 'setting_1') active @endif" href="#setting_1" role="tab"
@@ -66,6 +74,9 @@
                 <form method="POST" action="{{ route('frontend.settings.update') }}" enctype="multipart/form-data"
                     class="p-4">
                     @csrf
+
+                    <input type="hidden" name="lang" value="{{ currentEditingLang() }}">
+
                     <input type="hidden" name="setting_type" value="setting_1">
                     <div class="row">
                         <div class="form-group col-md-6">
@@ -84,8 +95,8 @@
                                 value="{{ get_setting('email') }}">
                         </div>
                         <div class="form-group col-md-6">
-                            <label>العنوان</label>
-                            <textarea class="form-control" name="address" id="address">{{ get_setting('address') }}</textarea>
+                            <label>العنوان <i class="fas fa-language" style="color:green"></i></label>
+                            <textarea class="form-control" name="address" id="address">{{ get_setting('address',null,currentEditingLang()) }}</textarea>
                         </div>
                         <div class="form-group col-md-6">
                             <label>اللوجو</label>
@@ -185,26 +196,27 @@
                 <form method="POST" action="{{ route('frontend.settings.update') }}" enctype="multipart/form-data"
                     class="p-4">
                     @csrf
+                    <input type="hidden" name="lang" value="{{ currentEditingLang() }}">
                     <input type="hidden" name="setting_type" value="setting_7">
                     <div class="form-group">
-                        <label>نص 1</label>
-                        <input class="form-control" type="text" name="about_us_1" value="{{ get_setting('about_us_1') }}">
+                        <label>نص 1 <i class="fas fa-language" style="color:green"></i></label>
+                        <input class="form-control" type="text" name="about_us_1" value="{{ get_setting('about_us_1',null,currentEditingLang()) }}">
                     </div>
                     <div class="form-group">
-                        <label>نص 2</label>
-                        <textarea class="form-control" name="about_us_2">{{ get_setting('about_us_2') }}</textarea> 
+                        <label>نص 2 <i class="fas fa-language" style="color:green"></i></label>
+                        <textarea class="form-control" name="about_us_2">{{ get_setting('about_us_2',null,currentEditingLang()) }}</textarea> 
                     </div>
                     <div class="form-group">
-                        <label>نص 3</label>
-                        <input class="form-control" type="text" name="about_us_3" value="{{ get_setting('about_us_3') }}">
+                        <label>نص 3 <i class="fas fa-language" style="color:green"></i></label>
+                        <input class="form-control" type="text" name="about_us_3" value="{{ get_setting('about_us_3',null,currentEditingLang()) }}">
                     </div>
                     <div class="form-group">
-                        <label>نص 4</label>
-                        <textarea class="form-control" name="about_us_4">{{ get_setting('about_us_4') }}</textarea>  
+                        <label>نص 4 <i class="fas fa-language" style="color:green"></i></label>
+                        <textarea class="form-control" name="about_us_4">{{ get_setting('about_us_4',null,currentEditingLang()) }}</textarea>  
                     </div>
                     <div class="form-group">
-                        <label>نص 5</label>
-                        <textarea class="form-control ckeditor" name="about_us_5" id="about_us_5">{{ get_setting('about_us_5') }}</textarea>
+                        <label>نص 5 <i class="fas fa-language" style="color:green"></i></label>
+                        <textarea class="form-control ckeditor" name="about_us_5" id="about_us_5">{{ get_setting('about_us_5',null,currentEditingLang()) }}</textarea>
                     </div>
                     <div class="row"> 
                         <div class="form-group col-md-6">
@@ -260,21 +272,22 @@
                 <form method="POST" action="{{ route('frontend.settings.update') }}" enctype="multipart/form-data"
                     class="p-4">
                     @csrf
+                    <input type="hidden" name="lang" value="{{ currentEditingLang() }}">
                     <input type="hidden" name="setting_type" value="setting_12">
                     <div class="form-group">
-                        <label>نص </label>
-                        <textarea class="form-control" name="footer_text" id="footer_text">{{ get_setting('footer_text') }}</textarea>
+                        <label>نص <i class="fas fa-language" style="color:green"></i></label>
+                        <textarea class="form-control" name="footer_text" id="footer_text">{{ get_setting('footer_text',null,currentEditingLang()) }}</textarea>
                     </div> 
                     <div class="form-group">
-                        <label>Copy Right </label>
-                        <textarea class="form-control" name="copy_right" id="copy_right">{{ get_setting('copy_right') }}</textarea>
+                        <label>Copy Right <i class="fas fa-language" style="color:green"></i></label>
+                        <textarea class="form-control" name="copy_right" id="copy_right">{{ get_setting('copy_right',null,currentEditingLang()) }}</textarea>
                     </div> 
                     <div class="row" id="dynamic-links-container">
                         @if (get_setting('important_links'))
-                            @foreach (json_decode(get_setting('important_links'), true) as $key => $link)
+                            @foreach (json_decode(get_setting('important_links',null,currentEditingLang()), true) as $key => $link)
                                 <div class="link-row form-group col-md-12 d-flex">
                                     <div class="form-group col-md-4">
-                                        <label>اسم الرابط</label>
+                                        <label>اسم الرابط <i class="fas fa-language" style="color:green"></i></label>
                                         <input class="form-control" type="text"
                                             name="important_links[{{ $key }}][name]"
                                             placeholder="اسم الرابط" value="{{ $link['name'] }}">
@@ -293,7 +306,7 @@
                         @else
                             <div class="link-row form-group col-md-12 d-flex">
                                 <div class="form-group col-md-4">
-                                    <label>اسم الرابط</label>
+                                    <label>اسم الرابط <i class="fas fa-language" style="color:green"></i></label>
                                     <input class="form-control" type="text" name="important_links[0][name]"
                                         placeholder="اسم الرابط">
                                 </div>
@@ -323,10 +336,11 @@
                 <form method="POST" action="{{ route('frontend.settings.update') }}" enctype="multipart/form-data"
                     class="p-4">
                     @csrf
+                    <input type="hidden" name="lang" value="{{ currentEditingLang() }}">
                     <input type="hidden" name="setting_type" value="setting_13"> 
                     <div class="form-group">
-                        <label>نص خدمتنا</label>
-                        <textarea class="form-control ckeditor" name="services_text" id="services_text">{{ get_setting('services_text') }}</textarea>
+                        <label>نص خدمتنا <i class="fas fa-language" style="color:green"></i></label>
+                        <textarea class="form-control ckeditor" name="services_text" id="services_text">{{ get_setting('services_text',null,currentEditingLang()) }}</textarea>
                     </div> 
                     <div class="form-group">
                         <button class="btn btn-danger" type="submit">
@@ -339,6 +353,7 @@
                 <form method="POST" action="{{ route('frontend.settings.update') }}" enctype="multipart/form-data"
                     class="p-4">
                     @csrf
+                    <input type="hidden" name="lang" value="{{ currentEditingLang() }}">
                     <input type="hidden" name="setting_type" value="setting_14"> 
                     <div class="form-group">
                         <label>صورة </label>
@@ -346,8 +361,8 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label>نص تواصل معنا</label>
-                        <textarea class="form-control" name="contact_us_text" id="contact_us_text">{{ get_setting('contact_us_text') }}</textarea>
+                        <label>نص تواصل معنا <i class="fas fa-language" style="color:green"></i></label>
+                        <textarea class="form-control" name="contact_us_text" id="contact_us_text">{{ get_setting('contact_us_text',null,currentEditingLang()) }}</textarea>
                     </div> 
                     <div class="form-group">
                         <button class="btn btn-danger" type="submit">
