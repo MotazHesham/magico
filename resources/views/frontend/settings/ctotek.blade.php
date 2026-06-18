@@ -68,6 +68,12 @@
                     الالوان
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link @if (request('setting_type') == 'setting_16') active @endif" href="#setting_16" role="tab"
+                    data-toggle="tab">
+                    أقسام الصفحة
+                </a>
+            </li>
         </ul>
         <div class="tab-content">
             <div class="tab-pane @if (request('setting_type', 'setting_1') == 'setting_1') active @endif" role="tabpanel" id="setting_1">
@@ -381,6 +387,92 @@
                         <input class="form-control" type="color" name="first_color"
                             value="{{ get_setting('first_color') }}">
                     </div> 
+                    <div class="form-group">
+                        <button class="btn btn-danger" type="submit">
+                            {{ trans('global.save') }}
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div class="tab-pane @if (request('setting_type') == 'setting_16') active @endif" role="tabpanel" id="setting_16">
+                <form method="POST" action="{{ route('frontend.settings.update') }}" enctype="multipart/form-data"
+                    class="p-4">
+                    @csrf
+                    <input type="hidden" name="lang" value="{{ currentEditingLang() }}">
+                    <input type="hidden" name="setting_type" value="setting_16">
+
+                    @php
+                        $themeSections = [
+                            'home' => ['label' => 'السلايدر', 'has_titles' => false],
+                            'about' => ['label' => 'عن الشركة', 'has_titles' => false],
+                            'portfolio' => [
+                                'label' => 'أعمالنا',
+                                'has_titles' => true,
+                                'default_1' => trans('frontend.ctotek.portfolio.1'),
+                                'default_2' => trans('frontend.ctotek.portfolio.2'),
+                            ],
+                            'services' => [
+                                'label' => 'خدمتنا',
+                                'has_titles' => true,
+                                'default_1' => trans('frontend.ctotek.services.1'),
+                                'default_2' => trans('frontend.ctotek.services.2'),
+                            ],
+                            'testimonial' => [
+                                'label' => 'آراء العملاء',
+                                'has_titles' => true,
+                                'default_1' => trans('frontend.ctotek.testimonial.1'),
+                                'default_2' => trans('frontend.ctotek.testimonial.2'),
+                            ],
+                            'quote' => [
+                                'label' => 'دعونا نتحدث',
+                                'has_titles' => true,
+                                'default_1' => trans('frontend.ctotek.contact.1'),
+                                'default_2' => get_setting('contact_us_text', trans('frontend.ctotek.contact.2'), currentEditingLang()) ?: trans('frontend.ctotek.contact.2'),
+                                'title_2_hint' => 'إذا تُرك فارغاً يُستخدم نص تواصل معنا من تبويب تواصل معنا',
+                            ],
+                            'contact' => [
+                                'label' => 'تواصل معنا',
+                                'has_titles' => true,
+                                'default_1' => trans('frontend.ctotek.contact.3'),
+                                'default_2' => trans('frontend.ctotek.contact.4'),
+                            ],
+                        ];
+                    @endphp
+
+                    @foreach ($themeSections as $sectionKey => $section)
+                        <div class="card mb-3">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <strong>{{ $section['label'] }}</strong>
+                                <label class="c-switch c-switch-pill c-switch-success mb-0">
+                                    <input type="checkbox" name="section_{{ $sectionKey }}_visible" class="c-switch-input"
+                                        {{ section_visible($sectionKey) ? 'checked' : '' }}>
+                                    <span class="c-switch-slider"></span>
+                                </label>
+                            </div>
+                            @if ($section['has_titles'])
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label>العنوان الفرعي <i class="fas fa-language" style="color:green"></i></label>
+                                        <input class="form-control" type="text"
+                                            name="section_{{ $sectionKey }}_title_1"
+                                            placeholder="{{ $section['default_1'] }}"
+                                            value="{{ get_setting('section_' . $sectionKey . '_title_1', null, currentEditingLang()) }}">
+                                    </div>
+                                    <div class="form-group mb-0">
+                                        <label>العنوان الرئيسي <i class="fas fa-language" style="color:green"></i></label>
+                                        @if (!empty($section['title_2_hint']))
+                                            <small class="form-text text-muted d-block mb-1">{{ $section['title_2_hint'] }}</small>
+                                        @endif
+                                        <input class="form-control" type="text"
+                                            name="section_{{ $sectionKey }}_title_2"
+                                            placeholder="{{ $section['default_2'] }}"
+                                            value="{{ get_setting('section_' . $sectionKey . '_title_2', null, currentEditingLang()) }}">
+                                    </div>
+                                </div>
+                            @endif
+                        </div>
+                    @endforeach
+
                     <div class="form-group">
                         <button class="btn btn-danger" type="submit">
                             {{ trans('global.save') }}

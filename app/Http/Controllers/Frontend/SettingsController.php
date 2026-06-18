@@ -141,6 +141,27 @@ class SettingsController extends Controller
                 }
             }elseif($request->setting_type == 'setting_15'){  
                 Setting::updateOrCreate(['key' => 'first_color'], ['value' => $request->first_color]);  
+            }elseif($request->setting_type == 'setting_16'){
+                $sectionsWithTitles = ['portfolio', 'services', 'testimonial', 'quote', 'contact'];
+                $sectionsVisibleOnly = ['home', 'about'];
+
+                foreach (array_merge($sectionsVisibleOnly, $sectionsWithTitles) as $section) {
+                    Setting::updateOrCreate(
+                        ['key' => "section_{$section}_visible"],
+                        ['value' => $request->has("section_{$section}_visible") ? '1' : '0']
+                    );
+                }
+
+                foreach ($sectionsWithTitles as $section) {
+                    Setting::updateOrCreate(
+                        ['key' => "section_{$section}_title_1", 'lang' => $request->lang],
+                        ['value' => $request->input("section_{$section}_title_1")]
+                    );
+                    Setting::updateOrCreate(
+                        ['key' => "section_{$section}_title_2", 'lang' => $request->lang],
+                        ['value' => $request->input("section_{$section}_title_2")]
+                    );
+                }
             }
         }else{
             

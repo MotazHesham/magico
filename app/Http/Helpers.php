@@ -47,3 +47,25 @@ use Illuminate\Support\Facades\Cache;
             return $setting == null ? $default : $setting->value;
         }
     }
+
+    if (!function_exists('section_visible')) {
+        function section_visible($section, $default = true)
+        {
+            $value = get_setting("section_{$section}_visible");
+
+            if ($value === null) {
+                return $default;
+            }
+
+            return $value === '1' || $value === 1 || $value === true;
+        }
+    }
+
+    if (!function_exists('section_title')) {
+        function section_title($section, $part, $default = '')
+        {
+            $value = get_setting("section_{$section}_title_{$part}", null, app()->getLocale());
+
+            return ($value !== null && $value !== '') ? $value : $default;
+        }
+    }

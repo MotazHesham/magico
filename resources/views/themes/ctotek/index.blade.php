@@ -97,36 +97,48 @@
                 <div class="col-lg-9 col-md-8">
                     <div class="menu-links">
                         <ul class="main-menu list-unstyled">
+                            @if(section_visible('home'))
                             <li>
                                 <div class="overflow-hidden">
                                     <a href="#home" class="link"><span class="nm">01.</span>{{ trans('frontend.ctotek.Home') }}</a>
                                 </div>
                             </li>
+                            @endif
+                            @if(section_visible('about'))
                             <li>
                                 <div class="overflow-hidden">
                                     <a href="#about" class="link"><span class="nm">02.</span>{{ trans('frontend.ctotek.AboutUs') }}</a>
                                 </div>
                             </li>
+                            @endif
+                            @if(section_visible('portfolio'))
                             <li>
                                 <div class="overflow-hidden">
                                     <a href="#portfolio" class="link"><span class="nm">03.</span>{{ trans('frontend.ctotek.Portfolio') }}</a>
                                 </div>
                             </li>
+                            @endif
+                            @if(section_visible('services'))
                             <li>
                                 <div class="overflow-hidden">
                                     <a href="#services" class="link"><span class="nm">04.</span>{{ trans('frontend.ctotek.Services') }}</a>
                                 </div>
                             </li>
+                            @endif
+                            @if(section_visible('testimonial'))
                             <li>
                                 <div class="overflow-hidden">
                                     <a href="#testimonial" class="link"><span class="nm">05.</span>{{ trans('frontend.ctotek.Testimonial') }}</a>
                                 </div>
                             </li>
+                            @endif
+                            @if(section_visible('contact'))
                             <li>
                                 <div class="overflow-hidden">
                                     <a href="#contact" class="link"><span class="nm">06.</span>{{ trans('frontend.ctotek.Contact') }}</a>
                                 </div>
                             </li>
+                            @endif
                             <li>
                                 <div class="overflow-hidden">
                                     <a href="{{ url()->current() }}?change_language={{ app()->getLocale() == 'ar' ? 'en' : 'ar' }}" class="link">
@@ -145,6 +157,7 @@
     <div class="wrapper">
 
         <!-- Start Slider -->
+        @if(section_visible('home'))
         <section class="slider fixed-slider slide-controls" id="home">
             <div class="swiper-container parallax-slider">
                 <div class="swiper-wrapper">
@@ -180,10 +193,12 @@
                 <div class="swiper-pagination"></div>
             </div>
         </section>
+        @endif
         <!-- End Slider -->
 
         <div class="main-content">
             <!-- Start Company -->
+            @if(section_visible('about'))
             <section class="company section" id="about">
                 <div class="container">
                     <div class="row align-items-center">
@@ -213,16 +228,18 @@
                     </div>
                 </div>
             </section>
+            @endif
             <!-- End Company -->
 
             <!-- Start Work -->
+            @if(section_visible('portfolio'))
             <section class="work-slider section bg-light" id="portfolio">
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="section-head">
-                                <h6 class="wow">{{ trans('frontend.ctotek.portfolio.1') }}</h6>
-                                <h3 class="wow">{{ trans('frontend.ctotek.portfolio.2') }}</h3>
+                                <h6 class="wow">{{ section_title('portfolio', 1, trans('frontend.ctotek.portfolio.1')) }}</h6>
+                                <h3 class="wow">{{ section_title('portfolio', 2, trans('frontend.ctotek.portfolio.2')) }}</h3>
                             </div>
                         </div>
                     </div>
@@ -265,16 +282,18 @@
                     </div>
                 </div>
             </section>
+            @endif
             <!-- End Work -->
 
             <!-- Start Services -->
+            @if(section_visible('services'))
             <section class="services-section section" id="services">
                 <div class="container">
                     <div class="row">
                         <div class="col-12">
                             <div class="section-head">
-                                <h6 class="wow">{{ trans('frontend.ctotek.services.1') }}</h6>
-                                <h3 class="wow">{{ trans('frontend.ctotek.services.2') }}</h3>
+                                <h6 class="wow">{{ section_title('services', 1, trans('frontend.ctotek.services.1')) }}</h6>
+                                <h3 class="wow">{{ section_title('services', 2, trans('frontend.ctotek.services.2')) }}</h3>
                             </div>
                         </div>
                     </div>
@@ -303,16 +322,18 @@
                     </div>
                 </div>
             </section>
+            @endif
             <!-- End Services -->
 
             <!-- Start Testimonials -->
+            @if(section_visible('testimonial'))
             <section class="testimonials section bg-light" id="testimonial">
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="section-head">
-                                <h6 class="wow">{{ trans('frontend.ctotek.testimonial.1') }}</h6>
-                                <h3 class="wow">{{ trans('frontend.ctotek.testimonial.2') }}</h3>
+                                <h6 class="wow">{{ section_title('testimonial', 1, trans('frontend.ctotek.testimonial.1')) }}</h6>
+                                <h3 class="wow">{{ section_title('testimonial', 2, trans('frontend.ctotek.testimonial.2')) }}</h3>
                             </div>
                         </div>
                     </div>
@@ -342,16 +363,18 @@
                     </div>
                 </div>
             </section>
+            @endif
             <!-- End Testimonial -->
             <!-- Start Quote -->
+            @if(section_visible('quote'))
             <section class="quote-block section" data-overlay-dark="5">
                 <div class="container">
                     <div class="row align-items-center">
                         <div class="col-md-8 col-lg-9">
                             <div class="content sm-mb30">
-                                <h6 class="wow">{{ trans('frontend.ctotek.contact.1') }}</h6>
+                                <h6 class="wow">{{ section_title('quote', 1, trans('frontend.ctotek.contact.1')) }}</h6>
                                 <h2 class="wow">
-                                    {!! get_setting('contact_us_text',null,app()->getLocale()) !!}
+                                    {!! section_title('quote', 2, get_setting('contact_us_text', null, app()->getLocale())) !!}
                                 </h2>
                             </div>
                         </div>
@@ -362,15 +385,17 @@
                     </div>
                 </div>
             </section>
+            @endif
             <!-- End Quote -->
             <!-- Start Contact -->
+            @if(section_visible('contact'))
             <section id="contact" class="contact-area section">
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="section-head">
-                                <h6 class="wow">{{ trans('frontend.ctotek.contact.3') }}</h6>
-                                <h3 class="wow">{{ trans('frontend.ctotek.contact.4') }}</h3>
+                                <h6 class="wow">{{ section_title('contact', 1, trans('frontend.ctotek.contact.3')) }}</h6>
+                                <h3 class="wow">{{ section_title('contact', 2, trans('frontend.ctotek.contact.4')) }}</h3>
                             </div>
                         </div>
                     </div>
@@ -480,6 +505,7 @@
                     </div>
                 </div>
             </section>
+            @endif
             <!-- End Contact-->
             <!-- Start Footer -->
             <footer class="footer theme-bg overflow-hidden">
